@@ -41,5 +41,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-### test files ###
-*.txt
+### test files (*.txt) ###

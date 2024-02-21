@@ -13,11 +13,15 @@ public class ThreadForOutputFiles extends Thread {
         this.flag = flag;
     }
 
+    /**
+     * достаем элементы из потоко-безопасных очередей и пишем их в соответствующий файл.
+     * для каждого (из 3) выходного файла свой поток.
+     */
     @Override
     public void run() {
         try {
             String fileName = determineFileName();
-            BlockingQueue<?> queue = determineQueue();
+            BlockingQueue<?> queue = determineQueueType();
 
             boolean fileCreated = false;
             BufferedWriter bufferedWriter = null;
@@ -67,7 +71,7 @@ public class ThreadForOutputFiles extends Thread {
         return res;
     }
 
-    private BlockingQueue<?> determineQueue() {
+    private BlockingQueue<?> determineQueueType() {
         switch (this.flag) {
             case "Integers" -> {
                 return ValueDeterminant.integerBlockingQueue;

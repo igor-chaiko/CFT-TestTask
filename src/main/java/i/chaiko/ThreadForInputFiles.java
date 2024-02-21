@@ -18,6 +18,9 @@ public class ThreadForInputFiles extends Thread {
         }
     }
 
+    /**
+     * Поочередно достаем 'строки' из файла и используя статический метод определяем тип.
+     */
     @Override
     public void run() {
         try (FileReader fileReader = new FileReader(this.fileName)) {
