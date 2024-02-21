@@ -3,13 +3,20 @@ package i.chaiko;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Управляющий класс.
+ */
 public class Main {
-    public static void main(String[] arguments) throws InterruptedException {
-        String[] args = new String[] {"in1.txt", "in2.txt", "in3.txt", "-o", "src/storage", "-p", "ok_", "-s"};
+    public static void main(String[] args) throws InterruptedException {
         ArrayList<String> fileNames = parseArgs(args);
         Main.entryPoint(fileNames);
     }
 
+    /**
+     * начинаем работать с файлами, разобравшись с аргументами.
+     * @param fileNames имена входных файлов.
+     * @throws InterruptedException исключение на случай прерывания потока.
+     */
     private static void entryPoint(ArrayList<String> fileNames) throws InterruptedException {
         final ArrayList<ThreadForInputFiles> inputTreadList = new ArrayList<>();
         final String[] dataTypes = new String[] {"Integers", "Floats", "Strings"};
@@ -30,9 +37,14 @@ public class Main {
         }
         ValueDeterminant.everythingIsRead = true;
 
-        Main.statistic();
+        Statistic.printStatistics();
     }
 
+    /**
+     * Парсим аргументы, выставляя соответствующие флаги.
+     * @param args аргументы main.
+     * @return имена входных файлов.
+     */
     private static ArrayList<String> parseArgs(String[] args) {
         ArrayList<String> inputFiles = new ArrayList<>();
 
@@ -77,35 +89,5 @@ public class Main {
         }
 
         return inputFiles;
-    }
-
-    private static void statistic() {
-        if (Statistic.shortStatistic) {
-            System.out.println("-----------------------------------\nShort statistics:");
-            System.out.println("number of integers: " + Statistic.integersCount);
-            System.out.println("number of floats: " + Statistic.floatsCount);
-            System.out.println("number of strings: " + Statistic.stringsCount);
-            System.out.println("-----------------------------------");
-        }
-
-        if (Statistic.fullStatistic) {
-            System.out.println("-----------------------------------\nFull statistics:");
-            System.out.println("For numbers:");
-            System.out.println("number of integers: " + Statistic.integersCount);
-            System.out.println("min Integer: " + Statistic.minInteger);
-            System.out.println("max Integer: " + Statistic.maxInteger);
-            System.out.println("sum of Integers: " + Statistic.sumOfIntegers);
-            System.out.println("avg Integer:" + ((double)Statistic.sumOfIntegers / (double)Statistic.integersCount) );
-            System.out.println("number of floats: " + Statistic.floatsCount);
-            System.out.println("min Float: " + Statistic.minFloat);
-            System.out.println("max Float: " + Statistic.maxFloat);
-            System.out.println("sum of Floats: " + Statistic.sumOfFloats);
-            System.out.println("avg Float: " + (Statistic.sumOfFloats / (double)Statistic.floatsCount) );
-            System.out.println("------------------------------\nFor strings:");
-            System.out.println("number of strings: " + Statistic.stringsCount);
-            System.out.println("max string's length: " + Statistic.maxString);
-            System.out.println("min string's length: " + Statistic.minString);
-            System.out.println("-----------------------------------");
-        }
     }
 }

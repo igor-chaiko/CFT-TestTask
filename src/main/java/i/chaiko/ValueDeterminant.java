@@ -3,15 +3,26 @@ package i.chaiko;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * тут определяем тип элемента и кладем его в соотв очеред.
+ * В них могут писать много потоков, но читают только 3, каждый пишет в свой файл.
+ * Это сделано для того, чтобы при огромных файлах не переполнить оперативную память.
+ * То есть в 1 момент времени в памяти будет не более 3000 элементов(можно менять вручную).
+ */
 public class ValueDeterminant {
     static BlockingQueue<String> stringBlockingQueue = new LinkedBlockingQueue<>(1000);
-    static BlockingQueue<Integer> integerBlockingQueue = new LinkedBlockingQueue<>(1000);
+    static BlockingQueue<Long> integerBlockingQueue = new LinkedBlockingQueue<>(1000);
     static BlockingQueue<Float> floatBlockingQueue = new LinkedBlockingQueue<>(1000);
     static boolean everythingIsRead = false;
 
+    /**
+     * В первой версии использовал исключения, но это выглядело не особо читабельно, поэтому переделал через регулярки.
+     * есть немного дублирование кода, но уже не успел декомпозировать.
+     * @param value 1/3 типов.
+     */
     static void valueDetermine(String value) throws InterruptedException {
         if (value.matches("-?\\d+")) {
-            int intValue = Integer.parseInt(value);
+            Long intValue = Long.parseLong(value);
             ValueDeterminant.integerBlockingQueue.put(intValue);
             Statistic.integersCount++;
 
